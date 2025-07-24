@@ -1,4 +1,4 @@
-import mssql from 'mssql';
+import sql from 'mssql';
 
 const dbConfig = {
     user: process.env.MSSQL_USER,
@@ -16,7 +16,7 @@ let pool;
 async function connectToDatabase() {
     if (!pool) { 
         try {
-            pool = await mssql.connect(dbConfig);
+            pool = await sql.connect(dbConfig);
             console.log('Connected to the database');
         } catch (error) {
             console.error('Error connecting to the database:', error.message);
@@ -40,4 +40,4 @@ function getSqlRequest() {
     return pool.request(); // New SQL request instance from the pool
   };
 
-export {  mssql, connectToDatabase, getPool, getSqlRequest };
+export { sql, connectToDatabase, getPool, getSqlRequest };
