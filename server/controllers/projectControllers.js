@@ -1,7 +1,7 @@
 import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { getSqlRequest } from "../db/connection.js";
+import { getSqlRequest, sql } from "../db/connection.js";
 
 // Api to add project
 export const addProject = asyncHandler(async (req, res) => {

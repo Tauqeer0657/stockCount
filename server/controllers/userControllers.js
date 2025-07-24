@@ -46,3 +46,32 @@ export const getUsers = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, { Users: result.recordset }, "Users fetched successfully"));
 });
+
+// Api to login user
+export const loginUser = asyncHandler(async (req, res) => {
+  const request = getSqlRequest();
+
+  const { userName, password } = req.body;
+
+  const query = `
+  SELECT *
+  FROM tb_user 
+  WHERE userName = @userName;
+`;
+  request.input("userName", sql.NVarChar, userName);
+  const result = await request.query(query);
+
+  if (result.recordset.length === 0) {
+    throw new ApiError(404, "No User found with this username");
+  }
+
+  const user = result.recordset[0];
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new ApiError(404, "Invalid username or password");
+  }
+
+  return res.status(200).json(new ApiResponse(200, {}, "Login successful"));
+});
+
