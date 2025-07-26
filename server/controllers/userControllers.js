@@ -66,12 +66,12 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 
   const user = result.recordset[0];
-
+  const userId = result.recordset[0].userId;
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new ApiError(404, "Invalid username or password");
   }
 
-  return res.status(200).json(new ApiResponse(200, {}, "Login successful"));
+  return res.status(200).json(new ApiResponse(200, { userId }, "Login successful"));
 });
 
