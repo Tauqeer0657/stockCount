@@ -7,6 +7,8 @@ import { ApiError } from "./utils/apiError.js";
 import { router as userRouter } from "./routers/userRoutes.js";
 import { router as projectRouter } from "./routers/projectRoutes.js";
 import { router as warehouseRouter } from "./routers/warehouseRoutes.js";
+import { router as itemRouter } from "./routers/itemRoutes.js";
+import { router as locationRouter } from "./routers/locationRoutes.js";
 import { router as stockCountRouter } from "./routers/stockCountRoutes.js";
 
 const app = express();
@@ -27,6 +29,8 @@ app.use(xssClean());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/warehouse", warehouseRouter);
+app.use("/api/v1/item", itemRouter);
+app.use("/api/v1/location", locationRouter);
 app.use("/api/v1/stockCount", stockCountRouter);
 
 // Error handling middleware 
