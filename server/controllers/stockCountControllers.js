@@ -80,12 +80,17 @@ export const getLatestStockCountByItem = asyncHandler(async (req, res) => {
   // Prepare input
   request.input("itemCode", sql.NVarChar, itemCode);
 
-  // Query to get the latest stock count for the specific itemCode
+  // Query with JOINs to get itemName and locationName
   const query = `
-    SELECT TOP 1 * 
-    FROM tb_stockcounts 
-    WHERE itemCode = @itemCode 
-    ORDER BY countedAt DESC
+    SELECT TOP 1 
+      sc.quantity,
+      i.itemName,
+      sl.locationName
+    FROM tb_stockcounts sc
+    INNER JOIN tb_item i ON sc.itemCode = i.itemCode
+    INNER JOIN tb_sk_location sl ON sc.locationId = sl.locationId
+    WHERE sc.itemCode = @itemCode 
+    ORDER BY sc.countedAt DESC
   `;
 
   const result = await request.query(query);
@@ -94,5 +99,6 @@ export const getLatestStockCountByItem = asyncHandler(async (req, res) => {
     throw new ApiError(404, `No stock count found for itemCode: ${itemCode}`);
   }
 
-  return res.status(200).json(new ApiResponse(200, { stockCount: result.recordset[0] }, "Latest stock count fetched successfully"));
+  return res.status(200).json(new ApiResponse(200, { stockCount: result.recordset[0] }, "Latest stock count with item and location details fetched successfully"));
 });
+

@@ -8,7 +8,7 @@ export const addLocation = asyncHandler(async (req, res) => {
   const request = getSqlRequest();
 
   // Validate required inputs
-  const { warehouseId, itemCode } = req.body;
+  const { warehouseId, itemCode, locationName } = req.body;
   if (!warehouseId || !itemCode) {
     throw new ApiError(400, "warehouseId and itemCode are required");
   }
@@ -34,6 +34,7 @@ export const addLocation = asyncHandler(async (req, res) => {
 
   // Prepare inputs for insert
   request.input("locationId", sql.NVarChar, newLocationId);
+  request.input("locationName", sql.NVarChar, locationName);
   request.input("warehouseId", sql.NVarChar, warehouseId);
   request.input("itemCode", sql.NVarChar, itemCode);
   request.input("createdAt", sql.DateTime, new Date());
@@ -41,9 +42,9 @@ export const addLocation = asyncHandler(async (req, res) => {
   // Insert query
   const query = `
     INSERT INTO tb_sk_location (
-      locationId, warehouseId, itemCode, createdAt
+      locationId, warehouseId, itemCode, locationName, createdAt
     ) VALUES (
-      @locationId, @warehouseId, @itemCode, @createdAt
+      @locationId, @warehouseId, @itemCode, @locationName, @createdAt
     )
   `;
 
