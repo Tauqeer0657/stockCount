@@ -63,3 +63,23 @@ export const getWarehouses = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, { Warehouses: result.recordset }, "Warehouses fetched successfully"));
 });
+
+// Api to get warehouses by projectId
+export const getWarehousesByProjectId = asyncHandler(async (req, res) => {
+  const request = getSqlRequest();
+  
+  const { projectId } = req.params;
+
+  const query = `SELECT * FROM tb_warehouse Where projectId = @projectId`;
+  
+  // Prepare input
+  request.input("projectId", sql.NVarChar, projectId);
+
+  const result = await request.query(query);
+
+  if (result.recordset.length === 0) {
+    throw new ApiError(404, "No Warehouses found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, { Warehouses: result.recordset }, "Warehouses fetched successfully"));
+});
