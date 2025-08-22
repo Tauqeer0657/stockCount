@@ -5,7 +5,7 @@ import { app } from "./app.js";
 
 connectToDatabase()
   .then(() => {
-    const PORT = process.env.MSSQL_PORT || 1433;
+    const PORT = process.env.MSSQL_PORT || 8000;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
