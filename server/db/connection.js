@@ -5,6 +5,7 @@ const dbConfig = {
     password: process.env.MSSQL_PASSWORD,
     server: process.env.MSSQL_SERVER,
     database: process.env.MSSQL_DATABASE,
+    port: parseInt(process.env.MSSQL_PORT, 10) || 8000,
     options:{
         encrypt: true,
         trustServerCertificate: true
