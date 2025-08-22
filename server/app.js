@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import xssClean from "xss-clean";
-import { ApiError } from "./utils/apiError.js";
+import { ApiError } from "./utils/ApiError.js";
 import { router as userRouter } from "./routers/userRoutes.js";
 import { router as projectRouter } from "./routers/projectRoutes.js";
 import { router as warehouseRouter } from "./routers/warehouseRoutes.js";
